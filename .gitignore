@@ -1,0 +1,20 @@
+# DB 데이터 및 환경 설정
+postgres-data/
+.env
+
+# 이클립스 설정
+.metadata/
+.settings/
+.project
+.classpath
+
+# Backend (Spring Boot)
+backend/build/
+backend/target/
+backend/out/
+backend/bin/
+
+# Frontend (React/Vue 등)
+frontend/node_modules/
+frontend/dist/
+frontend/build/

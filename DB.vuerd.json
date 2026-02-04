@@ -1,0 +1,1288 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dineug/erd-editor/main/json-schema/schema.json",
+  "version": "3.0.0",
+  "settings": {
+    "width": 2000,
+    "height": 2000,
+    "scrollTop": -172.3808,
+    "scrollLeft": -557.0404,
+    "zoomLevel": 0.73,
+    "show": 511,
+    "database": 16,
+    "databaseName": "Voca1800",
+    "canvasType": "ERD",
+    "language": 1,
+    "tableNameCase": 4,
+    "columnNameCase": 2,
+    "bracketType": 1,
+    "relationshipDataTypeSync": true,
+    "relationshipOptimization": false,
+    "columnOrder": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "maxWidthComment": -1,
+    "ignoreSaveSettings": 0
+  },
+  "doc": {
+    "tableIds": [
+      "m_user",
+      "m_word_master",
+      "m_example_sentence",
+      "m_audio_resource",
+      "t_user_word_progress",
+      "t_today_learning_loop",
+      "m_day_chapter",
+      "t_user_day_status"
+    ],
+    "relationshipIds": [
+      "rel_word_example",
+      "rel_user_progress",
+      "rel_word_progress",
+      "rel_user_loop",
+      "rel_word_loop",
+      "rel_user_day_status",
+      "rel_chapter_day_status"
+    ],
+    "indexIds": [],
+    "memoIds": []
+  },
+  "collections": {
+    "tableEntities": {
+      "m_user": {
+        "id": "m_user",
+        "name": "M_USER",
+        "comment": "사용자 마스터",
+        "columnIds": [
+          "m_user_c1",
+          "m_user_c2",
+          "m_user_c3",
+          "m_user_c4",
+          "m_user_c5",
+          "m_user_c6"
+        ],
+        "seqColumnIds": [
+          "m_user_c1",
+          "m_user_c2",
+          "m_user_c3",
+          "m_user_c4",
+          "m_user_c5",
+          "m_user_c6"
+        ],
+        "ui": {
+          "x": 728,
+          "y": 761,
+          "zIndex": 1,
+          "widthName": 60,
+          "widthComment": 77,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1770218644922,
+          "createAt": 1770218583134
+        }
+      },
+      "m_word_master": {
+        "id": "m_word_master",
+        "name": "M_WORD_MASTER",
+        "comment": "단어 마스터",
+        "columnIds": [
+          "m_word_c1",
+          "m_word_c2",
+          "m_word_c3",
+          "m_word_c4",
+          "m_word_c5"
+        ],
+        "seqColumnIds": [
+          "m_word_c1",
+          "m_word_c2",
+          "m_word_c3",
+          "m_word_c4",
+          "m_word_c5"
+        ],
+        "ui": {
+          "x": 718,
+          "y": 123,
+          "zIndex": 2,
+          "widthName": 103,
+          "widthComment": 65,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1770218632790,
+          "createAt": 1770218583134
+        }
+      },
+      "m_example_sentence": {
+        "id": "m_example_sentence",
+        "name": "M_EXAMPLE_SENTENCE",
+        "comment": "예문 마스터",
+        "columnIds": [
+          "m_ex_c1",
+          "m_ex_c2",
+          "m_ex_c3",
+          "m_ex_c4",
+          "m_ex_c5"
+        ],
+        "seqColumnIds": [
+          "m_ex_c1",
+          "m_ex_c2",
+          "m_ex_c3",
+          "m_ex_c4",
+          "m_ex_c5"
+        ],
+        "ui": {
+          "x": 61,
+          "y": 82,
+          "zIndex": 3,
+          "widthName": 129,
+          "widthComment": 65,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1770218821299,
+          "createAt": 1770218583134
+        }
+      },
+      "m_audio_resource": {
+        "id": "m_audio_resource",
+        "name": "M_AUDIO_RESOURCE",
+        "comment": "음성 리소스",
+        "columnIds": [
+          "m_aud_c1",
+          "m_aud_c2",
+          "m_aud_c3",
+          "m_aud_c4"
+        ],
+        "seqColumnIds": [
+          "m_aud_c1",
+          "m_aud_c2",
+          "m_aud_c3",
+          "m_aud_c4"
+        ],
+        "ui": {
+          "x": 1333,
+          "y": 131,
+          "zIndex": 4,
+          "widthName": 117,
+          "widthComment": 65,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1770218636078,
+          "createAt": 1770218583134
+        }
+      },
+      "t_user_word_progress": {
+        "id": "t_user_word_progress",
+        "name": "T_USER_WORD_PROGRESS",
+        "comment": "개인 진도/외운 단어",
+        "columnIds": [
+          "t_prog_c1",
+          "t_prog_c2",
+          "t_prog_c3",
+          "t_prog_c4",
+          "t_prog_c5",
+          "t_prog_c6"
+        ],
+        "seqColumnIds": [
+          "t_prog_c1",
+          "t_prog_c2",
+          "t_prog_c3",
+          "t_prog_c4",
+          "t_prog_c5",
+          "t_prog_c6"
+        ],
+        "ui": {
+          "x": 716,
+          "y": 421,
+          "zIndex": 5,
+          "widthName": 144,
+          "widthComment": 109,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1770218642515,
+          "createAt": 1770218583134
+        }
+      },
+      "t_today_learning_loop": {
+        "id": "t_today_learning_loop",
+        "name": "T_TODAY_LEARNING_LOOP",
+        "comment": "오늘의 학습 루프",
+        "columnIds": [
+          "t_loop_c1",
+          "t_loop_c2",
+          "t_loop_c3",
+          "t_loop_c4",
+          "t_loop_c5",
+          "t_loop_c6"
+        ],
+        "seqColumnIds": [
+          "t_loop_c1",
+          "t_loop_c2",
+          "t_loop_c3",
+          "t_loop_c4",
+          "t_loop_c5",
+          "t_loop_c6"
+        ],
+        "ui": {
+          "x": 43,
+          "y": 519,
+          "zIndex": 6,
+          "widthName": 146,
+          "widthComment": 93,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1770218654172,
+          "createAt": 1770218583134
+        }
+      },
+      "m_day_chapter": {
+        "id": "m_day_chapter",
+        "name": "M_DAY_CHAPTER",
+        "comment": "학습 단원 마스터",
+        "columnIds": [
+          "m_day_c1",
+          "m_day_c2"
+        ],
+        "seqColumnIds": [
+          "m_day_c1",
+          "m_day_c2"
+        ],
+        "ui": {
+          "x": 1370,
+          "y": 505,
+          "zIndex": 7,
+          "widthName": 94,
+          "widthComment": 93,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1770218651110,
+          "createAt": 1770218583134
+        }
+      },
+      "t_user_day_status": {
+        "id": "t_user_day_status",
+        "name": "T_USER_DAY_STATUS",
+        "comment": "단원 완료 상태",
+        "columnIds": [
+          "t_day_c1",
+          "t_day_c2",
+          "t_day_c3",
+          "t_day_c4",
+          "t_day_c5"
+        ],
+        "seqColumnIds": [
+          "t_day_c1",
+          "t_day_c2",
+          "t_day_c3",
+          "t_day_c4",
+          "t_day_c5"
+        ],
+        "ui": {
+          "x": 1361,
+          "y": 772,
+          "zIndex": 8,
+          "widthName": 112,
+          "widthComment": 81,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1770218648480,
+          "createAt": 1770218583134
+        }
+      }
+    },
+    "tableColumnEntities": {
+      "m_user_c1": {
+        "id": "m_user_c1",
+        "tableId": "m_user",
+        "name": "user_id",
+        "comment": "고유 식별자",
+        "dataType": "INT",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 65,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218830586,
+          "createAt": 1770218583134
+        }
+      },
+      "m_user_c2": {
+        "id": "m_user_c2",
+        "tableId": "m_user",
+        "name": "email",
+        "comment": "로그인 계정",
+        "dataType": "VARCHAR(255)",
+        "default": "",
+        "options": 12,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 65,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_user_c3": {
+        "id": "m_user_c3",
+        "tableId": "m_user",
+        "name": "user_name",
+        "comment": "이름/닉네임",
+        "dataType": "VARCHAR(100)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 67,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_user_c4": {
+        "id": "m_user_c4",
+        "tableId": "m_user",
+        "name": "profile_image_url",
+        "comment": "프로필 사진 경로",
+        "dataType": "VARCHAR(500)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 93,
+          "widthComment": 93,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_user_c5": {
+        "id": "m_user_c5",
+        "tableId": "m_user",
+        "name": "user_role",
+        "comment": "권한 (USER/ADMIN)",
+        "dataType": "VARCHAR(20)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 108,
+          "widthDataType": 75,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_user_c6": {
+        "id": "m_user_c6",
+        "tableId": "m_user",
+        "name": "created_at",
+        "comment": "가입 일시",
+        "dataType": "TIMESTAMP",
+        "default": "NOW()",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 65,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_word_c1": {
+        "id": "m_word_c1",
+        "tableId": "m_word_master",
+        "name": "word_id",
+        "comment": "단어 고유 번호",
+        "dataType": "INT",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 81,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218821333,
+          "createAt": 1770218583134
+        }
+      },
+      "m_word_c2": {
+        "id": "m_word_c2",
+        "tableId": "m_word_master",
+        "name": "word_english",
+        "comment": "영단어 원문",
+        "dataType": "VARCHAR(100)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 72,
+          "widthComment": 65,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_word_c3": {
+        "id": "m_word_c3",
+        "tableId": "m_word_master",
+        "name": "meaning_korean",
+        "comment": "한국어 뜻",
+        "dataType": "VARCHAR(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 90,
+          "widthComment": 60,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_word_c4": {
+        "id": "m_word_c4",
+        "tableId": "m_word_master",
+        "name": "meaning_japanese",
+        "comment": "일본어 뜻",
+        "dataType": "VARCHAR(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 100,
+          "widthComment": 60,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_word_c5": {
+        "id": "m_word_c5",
+        "tableId": "m_word_master",
+        "name": "difficulty_level",
+        "comment": "단어 난이도 (기본값 1)",
+        "dataType": "INT",
+        "default": "1",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 77,
+          "widthComment": 122,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218825225,
+          "createAt": 1770218583134
+        }
+      },
+      "m_ex_c1": {
+        "id": "m_ex_c1",
+        "tableId": "m_example_sentence",
+        "name": "example_id",
+        "comment": "예문 고유 번호",
+        "dataType": "INT",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 61,
+          "widthComment": 81,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218817826,
+          "createAt": 1770218583134
+        }
+      },
+      "m_ex_c2": {
+        "id": "m_ex_c2",
+        "tableId": "m_example_sentence",
+        "name": "word_id",
+        "comment": "연결된 단어 ID",
+        "dataType": "INT",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 60,
+          "widthComment": 80,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218821333,
+          "createAt": 1770218583134
+        }
+      },
+      "m_ex_c3": {
+        "id": "m_ex_c3",
+        "tableId": "m_example_sentence",
+        "name": "sentence_english",
+        "comment": "영어 예문",
+        "dataType": "VARCHAR(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 92,
+          "widthComment": 60,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_ex_c4": {
+        "id": "m_ex_c4",
+        "tableId": "m_example_sentence",
+        "name": "sentence_korean",
+        "comment": "예문 한국어 해석",
+        "dataType": "VARCHAR(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 90,
+          "widthComment": 93,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_ex_c5": {
+        "id": "m_ex_c5",
+        "tableId": "m_example_sentence",
+        "name": "grammar_point",
+        "comment": "핵심 문법 설명",
+        "dataType": "VARCHAR(500)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 83,
+          "widthComment": 81,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_aud_c1": {
+        "id": "m_aud_c1",
+        "tableId": "m_audio_resource",
+        "name": "audio_id",
+        "comment": "오디오 고유 번호",
+        "dataType": "INT",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 93,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218843719,
+          "createAt": 1770218583134
+        }
+      },
+      "m_aud_c2": {
+        "id": "m_aud_c2",
+        "tableId": "m_audio_resource",
+        "name": "reference_id",
+        "comment": "단어 또는 예문 ID",
+        "dataType": "INT",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 66,
+          "widthComment": 95,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218845224,
+          "createAt": 1770218583134
+        }
+      },
+      "m_aud_c3": {
+        "id": "m_aud_c3",
+        "tableId": "m_audio_resource",
+        "name": "reference_type",
+        "comment": "'WORD' 또는 'EXAMPLE' 구분",
+        "dataType": "VARCHAR(20)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 80,
+          "widthComment": 157,
+          "widthDataType": 75,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_aud_c4": {
+        "id": "m_aud_c4",
+        "tableId": "m_audio_resource",
+        "name": "audio_file_url",
+        "comment": "AI 생성 음성 파일 경로",
+        "dataType": "VARCHAR(500)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 72,
+          "widthComment": 122,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "t_prog_c1": {
+        "id": "t_prog_c1",
+        "tableId": "t_user_word_progress",
+        "name": "progress_id",
+        "comment": "진도 기록 식별자",
+        "dataType": "INT",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 63,
+          "widthComment": 93,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218835148,
+          "createAt": 1770218583134
+        }
+      },
+      "t_prog_c2": {
+        "id": "t_prog_c2",
+        "tableId": "t_user_word_progress",
+        "name": "user_id",
+        "comment": "사용자 ID",
+        "dataType": "INT",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218830586,
+          "createAt": 1770218583134
+        }
+      },
+      "t_prog_c3": {
+        "id": "t_prog_c3",
+        "tableId": "t_user_word_progress",
+        "name": "word_id",
+        "comment": "단어 ID",
+        "dataType": "INT",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218821333,
+          "createAt": 1770218583134
+        }
+      },
+      "t_prog_c4": {
+        "id": "t_prog_c4",
+        "tableId": "t_user_word_progress",
+        "name": "box_number",
+        "comment": "라이트너 박스 단계 (1~5)",
+        "dataType": "INT",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 68,
+          "widthComment": 136,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218837690,
+          "createAt": 1770218583134
+        }
+      },
+      "t_prog_c5": {
+        "id": "t_prog_c5",
+        "tableId": "t_user_word_progress",
+        "name": "is_memorized",
+        "comment": "외운 단어(T) 여부",
+        "dataType": "BOOLEAN",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 75,
+          "widthComment": 94,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "t_prog_c6": {
+        "id": "t_prog_c6",
+        "tableId": "t_user_word_progress",
+        "name": "next_review_date",
+        "comment": "알고리즘에 따른 다음 복습일",
+        "dataType": "DATE",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 92,
+          "widthComment": 156,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "t_loop_c1": {
+        "id": "t_loop_c1",
+        "tableId": "t_today_learning_loop",
+        "name": "loop_id",
+        "comment": "루프 기록 식별자",
+        "dataType": "INT",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 93,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218828235,
+          "createAt": 1770218583134
+        }
+      },
+      "t_loop_c2": {
+        "id": "t_loop_c2",
+        "tableId": "t_today_learning_loop",
+        "name": "user_id",
+        "comment": "사용자 ID",
+        "dataType": "INT",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218830586,
+          "createAt": 1770218583134
+        }
+      },
+      "t_loop_c3": {
+        "id": "t_loop_c3",
+        "tableId": "t_today_learning_loop",
+        "name": "word_id",
+        "comment": "단어 ID",
+        "dataType": "INT",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218821333,
+          "createAt": 1770218583134
+        }
+      },
+      "t_loop_c4": {
+        "id": "t_loop_c4",
+        "tableId": "t_today_learning_loop",
+        "name": "is_learned_today",
+        "comment": "오늘 성공 여부",
+        "dataType": "BOOLEAN",
+        "default": "FALSE",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 90,
+          "widthComment": 81,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "t_loop_c5": {
+        "id": "t_loop_c5",
+        "tableId": "t_today_learning_loop",
+        "name": "today_fail_count",
+        "comment": "오늘 틀린 횟수 (뒤로 미루기 기준)",
+        "dataType": "INT",
+        "default": "0",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 88,
+          "widthComment": 182,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218832579,
+          "createAt": 1770218583134
+        }
+      },
+      "t_loop_c6": {
+        "id": "t_loop_c6",
+        "tableId": "t_today_learning_loop",
+        "name": "last_attempt_at",
+        "comment": "마지막 시도 시간 (자정 체크용)",
+        "dataType": "TIMESTAMP",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 82,
+          "widthComment": 166,
+          "widthDataType": 65,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "m_day_c1": {
+        "id": "m_day_c1",
+        "tableId": "m_day_chapter",
+        "name": "chapter_id",
+        "comment": "Day 번호 (1~60)",
+        "dataType": "INT",
+        "default": "",
+        "options": 10,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 88,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218847341,
+          "createAt": 1770218583134
+        }
+      },
+      "m_day_c2": {
+        "id": "m_day_c2",
+        "tableId": "m_day_chapter",
+        "name": "title",
+        "comment": "단원 제목",
+        "dataType": "VARCHAR(100)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 81,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "t_day_c1": {
+        "id": "t_day_c1",
+        "tableId": "t_user_day_status",
+        "name": "status_id",
+        "comment": "상태 기록 식별자",
+        "dataType": "INT",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 93,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218849400,
+          "createAt": 1770218583134
+        }
+      },
+      "t_day_c2": {
+        "id": "t_day_c2",
+        "tableId": "t_user_day_status",
+        "name": "user_id",
+        "comment": "사용자 ID",
+        "dataType": "INT",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218830586,
+          "createAt": 1770218583134
+        }
+      },
+      "t_day_c3": {
+        "id": "t_day_c3",
+        "tableId": "t_user_day_status",
+        "name": "chapter_id",
+        "comment": "Day 번호",
+        "dataType": "INT",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218847341,
+          "createAt": 1770218583134
+        }
+      },
+      "t_day_c4": {
+        "id": "t_day_c4",
+        "tableId": "t_user_day_status",
+        "name": "is_completed",
+        "comment": "해당 Day 완료 여부",
+        "dataType": "BOOLEAN",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 72,
+          "widthComment": 104,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "t_day_c5": {
+        "id": "t_day_c5",
+        "tableId": "t_user_day_status",
+        "name": "completed_at",
+        "comment": "단원 최종 완료 일시",
+        "dataType": "TIMESTAMP",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 74,
+          "widthComment": 108,
+          "widthDataType": 65,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      }
+    },
+    "relationshipEntities": {
+      "rel_word_example": {
+        "id": "rel_word_example",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "m_word_master",
+          "columnIds": [
+            "m_word_c1"
+          ],
+          "x": 718,
+          "y": 167,
+          "direction": 1
+        },
+        "end": {
+          "tableId": "m_example_sentence",
+          "columnIds": [
+            "m_ex_c2"
+          ],
+          "x": 565,
+          "y": 170,
+          "direction": 2
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "rel_user_progress": {
+        "id": "rel_user_progress",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "m_user",
+          "columnIds": [
+            "m_user_c1"
+          ],
+          "x": 988,
+          "y": 761,
+          "direction": 4
+        },
+        "end": {
+          "tableId": "t_user_word_progress",
+          "columnIds": [
+            "t_prog_c2"
+          ],
+          "x": 989,
+          "y": 621,
+          "direction": 8
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "rel_word_progress": {
+        "id": "rel_word_progress",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "m_word_master",
+          "columnIds": [
+            "m_word_c1"
+          ],
+          "x": 988.5,
+          "y": 299,
+          "direction": 8
+        },
+        "end": {
+          "tableId": "t_user_word_progress",
+          "columnIds": [
+            "t_prog_c3"
+          ],
+          "x": 989,
+          "y": 421,
+          "direction": 4
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "rel_user_loop": {
+        "id": "rel_user_loop",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "m_user",
+          "columnIds": [
+            "m_user_c1"
+          ],
+          "x": 728,
+          "y": 861,
+          "direction": 1
+        },
+        "end": {
+          "tableId": "t_today_learning_loop",
+          "columnIds": [
+            "t_loop_c2"
+          ],
+          "x": 618,
+          "y": 669,
+          "direction": 2
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "rel_word_loop": {
+        "id": "rel_word_loop",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "m_word_master",
+          "columnIds": [
+            "m_word_c1"
+          ],
+          "x": 718,
+          "y": 255,
+          "direction": 1
+        },
+        "end": {
+          "tableId": "t_today_learning_loop",
+          "columnIds": [
+            "t_loop_c3"
+          ],
+          "x": 618,
+          "y": 569,
+          "direction": 2
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "rel_user_day_status": {
+        "id": "rel_user_day_status",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "m_user",
+          "columnIds": [
+            "m_user_c1"
+          ],
+          "x": 1248,
+          "y": 861,
+          "direction": 2
+        },
+        "end": {
+          "tableId": "t_user_day_status",
+          "columnIds": [
+            "t_day_c2"
+          ],
+          "x": 1361,
+          "y": 860,
+          "direction": 1
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      },
+      "rel_chapter_day_status": {
+        "id": "rel_chapter_day_status",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "m_day_chapter",
+          "columnIds": [
+            "m_day_c1"
+          ],
+          "x": 1603.5,
+          "y": 609,
+          "direction": 8
+        },
+        "end": {
+          "tableId": "t_user_day_status",
+          "columnIds": [
+            "t_day_c3"
+          ],
+          "x": 1603.5,
+          "y": 772,
+          "direction": 4
+        },
+        "meta": {
+          "updateAt": 1770218583134,
+          "createAt": 1770218583134
+        }
+      }
+    },
+    "indexEntities": {},
+    "indexColumnEntities": {},
+    "memoEntities": {}
+  }
+}
