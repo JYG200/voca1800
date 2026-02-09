@@ -5,7 +5,6 @@ pluginManagement {
 }
 
 plugins {
-    // [수정] 0.8.0 -> 0.9.0 (이걸로 바꾸면 에러 100% 해결됩니다)
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
 }
 

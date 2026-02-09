@@ -1,39 +1,7 @@
 version: '3.8'
 
 services:
-  # 1. 데이터베이스 (PostgreSQL)
-  db:
-    image: postgres:16-alpine
-    container_name: voca1800-db
-    environment:
-      POSTGRES_DB: voca1800
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data # 데이터 영구 보존
-    restart: always
-
-  # 2. 백엔드 (Spring Boot)
-  backend:
-    build: ./backend
-    container_name: voca1800-api
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/voca1800
-      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
-      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
-    depends_on:
-      - db
-    volumes:
-      - ./backend:/app # 코드 수정 시 자동 반영 (Hot Reload)
-
-  # 3. 프런트엔드 (Vue 3)
+  # 3. 프런트엔드 (Vue 3) -> 그대로 유지
   frontend:
     build: ./frontend
     container_name: voca1800-ui
@@ -46,16 +14,3 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-
-  # 4. pgAdmin (웹 DB 관리 도구)
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: voca1800-pgadmin
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com  # 로그인 아이디 (변경 가능)
-      PGADMIN_DEFAULT_PASSWORD: root          # 로그인 비밀번호 (변경 가능)
-    ports:
-      - "5050:80"
-    depends_on:
-      - db
