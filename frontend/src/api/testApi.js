@@ -1,6 +1,5 @@
 import api from './axios.js';
 
-
 export const fetchTestWords = async () => {
   try {
     const response = await api.get('/test/words');

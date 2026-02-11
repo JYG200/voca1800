@@ -1,11 +1,18 @@
 <template>
 <div class="home">
-    <h1> API 분리 테스트</h1>
+    <h1> API 테스트</h1>
     <div class="card">
       <p>결과:</p>
-      <h2>{{ message }}</h2>
+      
+      <h2 v-if="words.length === 0">데이터 로딩 중...</h2>
+
+      <ul v-else>
+        <li v-for="(word, index) in words" :key="index">
+          {{ word.wordEnglish }}
+        </li>
+      </ul>
     </div>
-  </div>
+</div>
 </template>
 
 <script setup>
@@ -13,14 +20,26 @@ import { ref, onMounted } from 'vue';
 import { fetchTestWords } from '@/api/testApi'; 
 
 const message = ref('데이터 로딩 중...');
-
+const words = ref([]);
 onMounted(async () => {
-  message.value = await fetchTestWords();
+  const response = await fetchTestWords();
+  words.value = response;
 });
 </script>
 
 <style scoped>
-/* 스타일은 그대로 */
+/* 리스트 스타일 살짝 다듬기 */
+ul {
+  list-style-type: none; /* 점 없애기 */
+  padding: 0;
+}
+li {
+  font-size: 1.5rem;
+  color: #42b883;
+  margin: 10px 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
 .home { text-align: center; margin-top: 50px; }
 .card { 
   border: 1px solid #ddd; 
@@ -30,5 +49,4 @@ onMounted(async () => {
   border-radius: 8px;
   background: #f9f9f9;
 }
-h2 { color: #42b883; }
 </style>

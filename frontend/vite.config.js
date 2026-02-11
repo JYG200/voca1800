@@ -13,18 +13,20 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-
+  build: {
+    outDir: '../backend/src/main/resources/static',
+    emptyOutDir: true
+  },
   server: {
-    host: '0.0.0.0', // 도커 외부 접속 허용
+    host: '0.0.0.0', 
     watch: {
       usePolling: true, 
     },
-    proxy: {
-      '/api': {
-        target: 'http://voca1800-api:8080', // 백엔드 도커 서비스 이름
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '') // '/api'를 떼고 보냄
-      }
-    }
+proxy: {
+  '/api': {
+    target: 'http://host.docker.internal:8080',
+    changeOrigin: true,
+  }
+}
   }
 })
