@@ -1,16 +1,12 @@
-version: '3.8'
-
 services:
-  # 3. 프런트엔드 (Vue 3) -> 그대로 유지
+  # 프런트엔드 (Vue 3)
   frontend:
     build: ./frontend
     container_name: voca1800-ui
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=http://localhost:8080
-    depends_on:
-      - backend
+      - VITE_API_URL=http://host.docker.internal:8080
     volumes:
       - ./frontend:/app
       - /app/node_modules
