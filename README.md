@@ -1,6 +1,6 @@
 <div align="right">
 
-[![KR](https://img.shields.io/badge/Language-Korean-0075C8?style=for-the-badge&logo=south-korea)](README.md) [![JP](https://img.shields.io/badge/Language-Japanese-gray?style=for-the-badge&logo=japan)](README.ja.md)
+[![한국어](https://img.shields.io/badge/한국어-0075C8?style=for-the-badge&logo=south-korea&logoColor=white)](README.md) [![日本語](https://img.shields.io/badge/日本語-BC002D?style=for-the-badge&logo=japan&logoColor=white)](README.ja.md)
 
 </div>
 
