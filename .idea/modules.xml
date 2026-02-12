@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/voca1800.iml" filepath="$PROJECT_DIR$/.idea/voca1800.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/voca1800-backend.main.iml" filepath="$PROJECT_DIR$/.idea/modules/voca1800-backend.main.iml" />
     </modules>
   </component>
 </project>
