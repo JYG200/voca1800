@@ -1,3 +1,9 @@
+<div align="right">
+
+[![KR](https://img.shields.io/badge/Language-Korean-0075C8?style=for-the-badge&logo=south-korea)](README.md) [![JP](https://img.shields.io/badge/Language-Japanese-gray?style=for-the-badge&logo=japan)](README.ja.md)
+
+</div>
+
 # 📚 Voca1800 - Gamified Vocabulary Learning Platform
 
 **Voca1800**은 하루 30단어씩 총 60일 동안 1,800개의 필수 단어를 완벽하게 암기하도록 돕는 웹 애플리케이션입니다.
