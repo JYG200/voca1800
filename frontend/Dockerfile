@@ -1,5 +1,5 @@
-# Node.js 20 버전 사용
-FROM node:20
+# Node.js 24 버전 사용
+FROM node:24
 
 WORKDIR /app
 
