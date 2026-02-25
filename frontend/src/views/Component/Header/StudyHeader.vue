@@ -1,71 +1,47 @@
 <template>
-    <header id="study-header" class="border-red">
-        <div class="header-wrapper">
+    <v-app-bar flat class="border-b bg-white" height="60">
+        <v-btn icon="mdi-chevron-left" variant="text" @click="$router.go(-1)"></v-btn>
 
-            <div class="header-side border-red">
-                <BaseButton icon prepend-icon="mdi-arrow-left" variant="text" color="grey-darken-3" @click="goBack" />
+        <div class="progress-container mx-4 flex-grow-1">
+            <div class="d-flex justify-space-between text-caption text-grey-darken-1 mb-1 font-weight-bold">
+                <span>Day {{ unitId }} 학습 진행도</span>
+                <span class="text-primary">{{ learnedWords }} / {{ total }}</span>
             </div>
 
-            <div class="header-center border-red">
-                <span class="unit-title">단원 {{ unitId }}</span>
-            </div>
-
-            <div class="header-side border-red"></div>
-
+            <v-progress-linear :model-value="progressPercentage" color="primary" height="8" rounded
+                bg-color="grey-lighten-3"></v-progress-linear>
         </div>
-    </header>
+
+        <div style="width: 48px;"></div>
+    </v-app-bar>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-import BaseButton from '@/views/Component/Common/BaseButton.vue'
+import { computed } from 'vue'
 
-defineProps({
-    unitId: String
+// 🌟 부모(StudyView)가 내려준 데이터 받기
+const props = defineProps({
+    unitId: { type: String, default: '1' },
+    total: { type: Number, default: 0 },
+    remaining: { type: Number, default: 0 }
 })
 
-const router = useRouter()
-const goBack = () => {
-    window.history.length > 1 ? router.back() : router.push('/')
-}
+// 🌟 '외운 단어 수' 계산 (전체 - 남은 것)
+const learnedWords = computed(() => {
+    return props.total - props.remaining
+})
+
+// 🌟 진행률(%) 계산
+const progressPercentage = computed(() => {
+    if (props.total === 0) return 0
+    return (learnedWords.value / props.total) * 100
+})
 </script>
 
 <style scoped>
-.border-red {
-    border: 1px solid red !important;
-}
-
-#study-header {
-    width: 100%;
-    height: 64px;
-    background-color: white;
-}
-
-.header-wrapper {
+.progress-container {
     display: flex;
-    height: 100%;
-    align-items: center;
-    /* 수직 중앙 */
-}
-
-.header-side {
-    flex: 1;
-    display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-}
-
-.header-center {
-    flex: 2;
-    /* 중앙을 넓게 하여 글자 공간 확보 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.unit-title {
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: #333;
 }
 </style>
