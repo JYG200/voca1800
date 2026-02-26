@@ -1,23 +1,24 @@
 <template>
   <div class="day-grid-wrapper pa-4">
     <div v-for="chapter in 4" :key="chapter" class="chapter-section mb-8">
-      <h3 class="chapter-title mb-4">
-        {{ (chapter - 1) * DAYS_PER_CHAPTER + 1 }} ~ {{ chapter * DAYS_PER_CHAPTER }} 단계
-      </h3>
+      <div class="chapter-header mb-4">
+        <span class="chapter-badge">Chapter {{ chapter }}</span>
+        <span class="chapter-range">Day {{ (chapter - 1) * DAYS_PER_CHAPTER + 1 }} ~ {{ chapter * DAYS_PER_CHAPTER
+          }}</span>
+      </div>
 
       <div class="day-grid-container">
         <div v-for="n in DAYS_PER_CHAPTER" :key="getDay(chapter, n)" class="day-box" :class="{
-          'active': getDay(chapter, n) === currentProgress,
-          'locked': getDay(chapter, n) > currentProgress,
-          'completed': getDay(chapter, n) < currentProgress
-        }" @click="clickDay(getDay(chapter, n))">
-          
+                                                                                                'active': getDay(chapter, n) === currentProgress,
+                                                                                                'locked': getDay(chapter, n) > currentProgress,
+                                                                                                'completed': getDay(chapter, n) < currentProgress
+                                                                                              }"
+          @click="clickDay(getDay(chapter, n))">
           <div class="day-number">{{ getDay(chapter, n) }}</div>
 
-          <v-icon v-if="getDay(chapter, n) < currentProgress" size="18" color="success">mdi-check-bold</v-icon>
+          <v-icon v-if="getDay(chapter, n) < currentProgress" size="16" color="white">mdi-check-bold</v-icon>
           <div v-else-if="getDay(chapter, n) === currentProgress" class="active-dot"></div>
-          <v-icon v-else size="16" color="grey-darken-1">mdi-lock</v-icon>
-          
+          <v-icon v-else size="14" color="#c4b5fd">mdi-lock</v-icon>
         </div>
       </div>
     </div>
@@ -29,129 +30,151 @@ import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 
 const router = useRouter()
+const currentProgress = 2
+const DAYS_PER_CHAPTER = 15
 
-// 1. 상태 (나중에 DB나 Pinia에서 받아올 유저의 현재 진도)
-const currentProgress = 2; 
-
-// 2. 레이아웃 설정값 (한 챕터당 며칠씩 보여줄 것인가?)
-const DAYS_PER_CHAPTER = 15; 
-
-// 3. 날짜 계산 함수
-const getDay = (chapter, n) => n + (chapter - 1) * DAYS_PER_CHAPTER;
+const getDay = (chapter, n) => n + (chapter - 1) * DAYS_PER_CHAPTER
 
 const clickDay = (targetDay) => {
   if (targetDay > currentProgress) {
-    alert(`🔒 ${currentProgress}단계를 먼저 완료해주세요!`);
+    alert(`🔒 ${currentProgress}단계를 먼저 완료해주세요!`)
   } else {
-    // 정상 이동 (1~15)
-    router.push({ name: 'study', params: { id: targetDay } });
+    router.push({ name: 'study', params: { id: targetDay } })
   }
 }
 
 onMounted(() => {
-  // 화면이 켜지면 현재 학습 중인 곳으로 부드럽게 스크롤
-  const activeElement = document.querySelector('.day-box.active');
+  const activeElement = document.querySelector('.day-box.active')
   if (activeElement) {
-    activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 })
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
 
 .day-grid-wrapper {
-  max-width: 500px; /* 화면이 아무리 넓어도 600px 이상 늘어나지 않음 */
-  margin: 0 auto;   /* 넓은 화면에서 가운데 정렬 */
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: 'Nunito', sans-serif;
+}
+
+.chapter-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chapter-badge {
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: white;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 4px 12px;
+  border-radius: 99px;
+  letter-spacing: 0.5px;
+}
+
+.chapter-range {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9ca3af;
 }
 
 .day-grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 @media (min-width: 600px) {
   .day-grid-container {
     grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
+    gap: 12px;
   }
 }
 
-@media (max-width: 350px) {
-  .day-grid-container {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .day-box {
-    min-height: 80px;
-  }
-}
-
-.chapter-title {
-  font-size: 1rem;
-  color: #546E7A;
-  font-weight: 700;
-  border-left: 4px solid #1976D2;
-  padding-left: 10px;
-}
-
+/* 기본 박스 */
 .day-box {
-  background-color: #ffffff;
-  border-radius: 16px;
-  min-height: 100px;
+  background: white;
+  border-radius: 20px;
+  min-height: 88px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e0e0e0;
+  gap: 6px;
+  border: 1.5px solid rgba(167, 139, 250, 0.15);
   cursor: pointer;
-  transition: all 0.2s ease;
-  /* 💡 중복되던 color 속성 제거됨 */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 2px 8px rgba(167, 139, 250, 0.08);
 }
 
 .day-box:active {
-  transform: scale(0.95);
-  background-color: #eeeeee;
+  transform: scale(0.93);
 }
 
 .day-number {
   font-weight: 900;
-  font-size: 1.3rem;
-  margin-bottom: 2px;
-  color: #263238 !important;
+  font-size: 1.2rem;
+  color: #1e1b4b;
+  line-height: 1;
 }
 
-/* 🎯 상태별 스타일 모음 (활성화/잠금/완료) */
-.day-box.active {
-  border: 2px solid #1976D2;
-  background-color: #E3F2FD;
-  color: #1976D2 !important; 
-  animation: pulse 2s infinite;
-}
-
-/* active 상태의 숫자 색상도 파란색으로 통일 */
-.day-box.active .day-number {
-  color: #1976D2 !important;
-}
-
-.day-box.locked .day-number {
-  color: #9e9e9e !important; /* 잠긴 숫자는 조금 더 연한 회색으로 */
+/* 완료 */
+.day-box.completed {
+  background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+  border-color: transparent;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
 }
 
 .day-box.completed .day-number {
-  color: #2E7D32 !important;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* 현재 진행 중 */
+.day-box.active {
+  background: linear-gradient(135deg, #f0e6ff 0%, #e6f0ff 100%);
+  border: 2px solid #a78bfa;
+  box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.4);
+  animation: pulse 2s infinite;
+}
+
+.day-box.active .day-number {
+  color: #7c3aed;
 }
 
 .active-dot {
-  width: 8px;
-  height: 8px;
-  background-color: #1976D2;
+  width: 7px;
+  height: 7px;
+  background: linear-gradient(135deg, #a78bfa, #60a5fa);
   border-radius: 50%;
 }
 
+/* 잠금 */
+.day-box.locked {
+  background: #fafafa;
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.day-box.locked .day-number {
+  color: #d1d5db;
+}
+
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(25, 118, 210, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(25, 118, 210, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.45);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(167, 139, 250, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(167, 139, 250, 0);
+  }
 }
 </style>
