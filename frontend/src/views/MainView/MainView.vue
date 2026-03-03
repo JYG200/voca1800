@@ -29,7 +29,7 @@ const isSettingsOpen = ref(false)
 
 <style scoped>
 .main-scroll-area {
-  height: calc(100vh - 64px - 56px); /* 헤더 높이 - 푸터 높이 */
+  height: calc(100vh - 56px - 56px); /* 헤더 높이 - 풋터 높이 */
   overflow-y: auto;
   background: linear-gradient(160deg, #f0e6ff 0%, #e6f0ff 50%, #f0f7ff 100%);
   -webkit-overflow-scrolling: touch;

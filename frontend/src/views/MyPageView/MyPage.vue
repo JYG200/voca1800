@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <MainHeader />
     <div class="mypage-scroll-area">
       <div class="content-limit-wrapper">
@@ -7,7 +7,7 @@
       </div>
     </div>
     <MainFooter />
-  </div>
+  </v-app>
 </template>
 
 <script setup>
@@ -17,8 +17,7 @@ import MainFooter from '@/views/Component/Footer/MainFooter.vue'
 
 <style scoped>
 .mypage-scroll-area {
-  margin-top: 64px;
-  height: calc(100vh - 64px - 68px);
+  height: calc(100vh - 56px - 56px);
   overflow-y: auto;
   background: linear-gradient(160deg, #f0e6ff 0%, #e6f0ff 50%, #f0f7ff 100%);
 }

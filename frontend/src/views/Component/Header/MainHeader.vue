@@ -33,7 +33,7 @@ const currentProgress = ref(2)
 
 .main-header {
   width: 100%;
-  height: 68px;
+  height: 56px;
   flex-shrink: 0;
   background: linear-gradient(160deg, #f0e6ff 0%, #e6f0ff 100%);
   border-bottom: 1.5px solid rgba(167, 139, 250, 0.2);
@@ -72,14 +72,14 @@ const currentProgress = ref(2)
 }
 
 .header-sub {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: #a78bfa;
   letter-spacing: 0.5px;
 }
 
 .header-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 900;
   color: #1e1b4b;
   letter-spacing: -0.3px;

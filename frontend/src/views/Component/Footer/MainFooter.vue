@@ -3,8 +3,8 @@
     <div class="footer-wrapper">
 
       <button v-for="tab in tabs" :key="tab.value" class="footer-btn" :class="{ active: activeTab === tab.value }"
-        @click="activeTab = tab.value">
-        <v-icon size="24">{{ activeTab === tab.value ? tab.iconActive : tab.icon }}</v-icon>
+        @click="moveTo(tab.value)">
+        <v-icon size="20">{{ activeTab === tab.value ? tab.iconActive : tab.icon }}</v-icon>
         <span>{{ tab.label }}</span>
       </button>
 
@@ -13,15 +13,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const activeTab = ref('study')
+const route = useRoute()
+const router = useRouter()
+
+const activeTab = computed(() => {
+  if (route.name === 'study') return 'main'
+  return route.name
+})
 
 const tabs = [
   { value: 'ranking', label: '랭킹', icon: 'mdi-trophy-outline', iconActive: 'mdi-trophy' },
-  { value: 'study', label: '학습', icon: 'mdi-book-open-page-variant-outline', iconActive: 'mdi-book-open-page-variant' },
+  { value: 'main', label: '학습', icon: 'mdi-book-open-page-variant-outline', iconActive: 'mdi-book-open-page-variant' },
   { value: 'mypage', label: '마이', icon: 'mdi-account-circle-outline', iconActive: 'mdi-account-circle' },
 ]
+
+const moveTo = (value) => {
+  router.push({ name: value })
+}
 </script>
 
 <style scoped>
@@ -32,12 +43,15 @@ const tabs = [
   bottom: 0;
   left: 0;
   right: 0;
-  height: 68px;
+  width: 100%;
+  height: 56px;
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
   background: white;
   border-top: 1.5px solid rgba(167, 139, 250, 0.15);
   box-shadow: 0 -4px 20px rgba(124, 58, 237, 0.08);
   z-index: 100;
   font-family: 'Nunito', sans-serif;
+  box-sizing: border-box;
 }
 
 .footer-wrapper {
@@ -57,14 +71,14 @@ const tabs = [
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   cursor: pointer;
   transition: transform 0.15s ease;
   color: #d1d5db;
 }
 
 .footer-btn span {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
 }
 
