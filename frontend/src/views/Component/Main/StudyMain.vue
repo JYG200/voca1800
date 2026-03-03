@@ -1,76 +1,63 @@
 <template>
     <main id="study-main">
         <div class="card-container">
-
-            <!-- 다음 카드 -->
-            <div v-show="words.length > 0" class="word-card next-card" :style="nextCardStyle">
-                <div class="card-face card-front">
-                    <div class="card-tag">Day 1</div>
-
-                    <div class="card-content-wrapper" :style="{ opacity: nextContentOpacity, transition: 'none' }">
-                        <div class="word-group">
-                            <h1 class="word-text">{{ (words[1] ?? words[0])?.word }}</h1>
-                            <p class="phonetic-text">{{ (words[1] ?? words[0])?.phonetic }}</p>
-                        </div>
-                        <p class="hint-text">탭하여 뜻 확인 👆</p>
-                    </div>
-
-                    <div class="guide-text">← 외움 &nbsp;|&nbsp; 미흡 →</div>
-                </div>
-            </div>
-
-            <!-- 현재 카드 -->
-            <div v-if="words.length > 0" ref="topCardRef" class="word-card top-card" :class="cardClass"
-                :style="cardStyle" @pointerdown="onPointerDown">
-                <div class="card-inner" :class="{ 'is-flipped': isFlipped }">
-                    <!-- 앞면 -->
+            <div v-if="words.length > 1" class="word-card next-card" :style="nextCardStyle">
+                <div class="card-inner card-inner-static">
                     <div class="card-face card-front">
-                        <div class="drag-overlay"></div>
                         <div class="card-tag">Day 1</div>
                         <div class="card-content-wrapper">
                             <div class="word-group">
-                                <h1 class="word-text">{{ words[0].word }}</h1>
-                                <p class="phonetic-text">{{ words[0].phonetic }}</p>
+                                <h1 class="word-text">{{ nextPreview?.word }}</h1>
                             </div>
-                            <p class="hint-text">탭하여 뜻 확인 👆</p>
                         </div>
-                        <div class="guide-text">← 외움 &nbsp;|&nbsp; 미흡 →</div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="words.length > 0" class="word-card top-card" :class="cardClass" :style="cardStyle"
+                @pointerdown="onPointerDown" @pointermove="onPointerMove" @pointerup="onPointerUp"
+                @pointercancel="onPointerUp">
+
+                <div class="card-inner" :key="frontPreview?.id" :class="{ 'is-flipped': isFlipped }">
+                    <div class="card-face card-front">
+                        <div class="card-tag">Day 1</div>
+                        <div class="card-content-wrapper">
+                            <div class="word-group">
+                                <h1 class="word-text">{{ frontPreview?.word }}</h1>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 뒷면 -->
                     <div class="card-face card-back">
-                        <div class="drag-overlay"></div>
                         <div class="card-tag tag-back">Day 1</div>
                         <div class="card-content-wrapper">
                             <div class="word-group">
-                                <h1 class="word-text word-text-back">{{ words[0].word }}</h1>
-                                <p class="phonetic-text phonetic-text-back">{{ words[0].phonetic }}</p>
+                                <h1 class="word-text word-text-back">{{ frontPreview?.word }}</h1>
+                                <p class="phonetic-text phonetic-text-back">{{ frontPreview?.phonetic }}</p>
                             </div>
                             <div class="meaning-group">
-                                <span class="meaning-text">{{ words[0].meaning }}</span>
+                                <span class="meaning-text">{{ frontPreview?.meaning }}</span>
                             </div>
                         </div>
                         <div class="guide-text guide-text-back">← 외움 &nbsp;|&nbsp; 미흡 →</div>
                     </div>
-
                 </div>
             </div>
 
-            <!-- 완료 화면 -->
             <div v-if="words.length === 0"
                 class="empty-state position-absolute w-100 h-100 d-flex flex-column align-center justify-center">
                 <div class="complete-icon">🎉</div>
                 <h2 class="complete-title">학습 완료!</h2>
                 <p class="complete-sub">{{ initialWords.length }}개 단어를 모두 외웠어요</p>
+
                 <button class="reset-btn" @click="router.push({ name: 'main' })">확인</button>
             </div>
-
         </div>
     </main>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, watchEffect, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -83,64 +70,139 @@ const initialWords = [
 ]
 
 const words = ref([...initialWords])
+
+/** ===================== 상태 ===================== */
 const isFlipped = ref(false)
-const topCardRef = ref(null)
 const animState = ref('idle')
 
 const pointerStart = ref({ x: 0, y: 0 })
 const dragX = ref(0)
 const isDragging = ref(false)
-const hasMoved = ref(false)
+const capturedTarget = ref(null)
 
-watch(() => words.value.length, (newLength) => {
-    emit('update-progress', { total: initialWords.length, remaining: newLength })
-}, { immediate: true })
+/** ===================== Preview(깜빡임 방지) ===================== */
+const frontPreview = ref(words.value[0] ?? null)
+const nextPreview = ref(words.value[1] ?? null)
 
+watchEffect(() => {
+    if (animState.value !== 'idle') return
+    frontPreview.value = words.value[0] ?? null
+    nextPreview.value = words.value[1] ?? null
+})
+
+watch(
+    () => words.value.length,
+    (len) => emit('update-progress', { total: initialWords.length, remaining: len }),
+    { immediate: true }
+)
+
+/** ===================== returning 감쇠 ===================== */
+const returningProgress = ref(0)
+let returningRaf = null
+
+function startReturningDecay(from) {
+    cancelReturningDecay()
+    returningProgress.value = from
+
+    const duration = 350
+    const start = performance.now()
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
+
+    const tick = (now) => {
+        const t = Math.min(1, (now - start) / duration)
+        const eased = easeOutCubic(t)
+        returningProgress.value = from * (1 - eased)
+        if (t < 1) returningRaf = requestAnimationFrame(tick)
+    }
+
+    returningRaf = requestAnimationFrame(tick)
+}
+
+function cancelReturningDecay() {
+    if (returningRaf) cancelAnimationFrame(returningRaf)
+    returningRaf = null
+}
+
+onBeforeUnmount(() => cancelReturningDecay())
+
+/** ===================== 포인터 이벤트 ===================== */
 const onPointerDown = (e) => {
     if (animState.value !== 'idle') return
+
+    capturedTarget.value = e.currentTarget
+    capturedTarget.value?.setPointerCapture?.(e.pointerId)
+
     pointerStart.value = { x: e.clientX, y: e.clientY }
     dragX.value = 0
     isDragging.value = true
-    hasMoved.value = false
-    window.addEventListener('pointermove', onPointerMove)
-    window.addEventListener('pointerup', onPointerUp)
 }
 
-const onPointerMove = (e) => {
+function onPointerMove(e) {
     if (!isDragging.value) return
+
     const dx = e.clientX - pointerStart.value.x
     if (Math.abs(dx) > 5) {
-        hasMoved.value = true
         animState.value = 'dragging'
         dragX.value = dx
     }
 }
 
-const onPointerUp = () => {
-    window.removeEventListener('pointermove', onPointerMove)
-    window.removeEventListener('pointerup', onPointerUp)
+function onPointerUp(e) {
+    capturedTarget.value?.releasePointerCapture?.(e.pointerId)
+    capturedTarget.value = null
 
     if (!isDragging.value) return
     isDragging.value = false
 
-    if (!hasMoved.value || Math.abs(dragX.value) < 8) {
+    if (Math.abs(dragX.value) < 8) {
         animState.value = 'idle'
         dragX.value = 0
         isFlipped.value = !isFlipped.value
         return
     }
 
-    if (dragX.value < -130) {
-        handleSwipeOut('left')
-    } else if (dragX.value > 130) {
-        handleSwipeOut('right')
-    } else {
+    if (dragX.value < -130) handleSwipeOut('left')
+    else if (dragX.value > 130) handleSwipeOut('right')
+    else {
+        const from = Math.min(1, Math.abs(dragX.value) / 130)
         animState.value = 'returning'
         dragX.value = 0
-        setTimeout(() => { animState.value = 'idle' }, 500)
+        startReturningDecay(from)
+
+        setTimeout(() => {
+            animState.value = 'idle'
+            returningProgress.value = 0
+            cancelReturningDecay()
+        }, 500)
     }
 }
 
+/** ===================== 스와이프 처리 ===================== */
+const handleSwipeOut = (dir) => {
+    isFlipped.value = false
+    cancelReturningDecay()
+    returningProgress.value = 0
+
+    frontPreview.value = words.value[0] ?? null
+    animState.value = dir === 'left' ? 'flying-left' : 'flying-right'
+
+    setTimeout(() => {
+        const current = words.value.shift()
+        if (dir === 'right' && current) words.value.push({ ...current, id: Date.now() })
+
+        dragX.value = 0
+        animState.value = 'entering'
+        frontPreview.value = words.value[0] ?? null
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                animState.value = 'idle'
+            })
+        })
+    }, 380)
+}
+
+/** ===================== 스타일 바인딩 ===================== */
 const cardClass = computed(() => ({
     'is-flying-left': animState.value === 'flying-left',
     'is-flying-right': animState.value === 'flying-right',
@@ -152,68 +214,48 @@ const cardStyle = computed(() => {
     if (animState.value === 'dragging') {
         const x = dragX.value
         const rotate = Math.min(Math.max(x / 12, -25), 25)
-        const opacity = Math.max(0.75, 1 - Math.abs(x) / 280)
-        const progress = Math.min(1, Math.abs(x) / 130)
-        const isLeft = x < 0
+        const p = Math.min(1, Math.abs(x) / 130)
 
-        // 왼쪽(외움) → 초록 glow, 오른쪽(미흡) → 빨강 glow
-        const glowColor = isLeft
-            ? `rgba(52, 211, 153, ${progress * 0.7})`
-            : `rgba(248, 113, 113, ${progress * 0.7})`
-        const overlayColor = isLeft
-            ? `rgba(52, 211, 153, ${progress * 0.13})`
-            : `rgba(248, 113, 113, ${progress * 0.13})`
+        const glowColor = x < 0
+            ? `rgba(34, 197, 94, ${p * 0.7})`
+            : `rgba(239, 68, 68, ${p * 0.7})`
 
         return {
             transform: `translateX(${x}px) rotate(${rotate}deg)`,
-            opacity,
             transition: 'none',
-            filter: `drop-shadow(0 12px 36px ${glowColor})`,
-            '--overlay-color': overlayColor,
+            opacity: 1,
+            filter: `drop-shadow(0 0 ${p * 40}px ${glowColor})`,
         }
     }
+    if (animState.value === 'returning') return { transform: `translateX(0px) rotate(0deg)`, opacity: 1 }
+    if (animState.value === 'flying-left') return { transform: `translateX(-700px) rotate(-30deg)`, opacity: 0 }
+    if (animState.value === 'flying-right') return { transform: `translateX(700px) rotate(30deg)`, opacity: 0 }
+
     return {
-        '--overlay-color': 'transparent',
+        transform: `translateX(0px) rotate(0deg)`,
+        opacity: animState.value === 'entering' ? 0 : 1,
     }
-})
-
-const handleSwipeOut = (dir) => {
-    isFlipped.value = false
-    animState.value = dir === 'left' ? 'flying-left' : 'flying-right'
-
-    setTimeout(() => {
-        const current = words.value.shift()
-        if (dir === 'right') {
-            words.value.push({ ...current, id: Date.now() })
-        }
-        dragX.value = 0
-        animState.value = 'entering'
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                animState.value = 'idle'
-            })
-        })
-    }, 380)
-}
-
-const nextContentOpacity = computed(() => {
-    return 1
 })
 
 const nextCardStyle = computed(() => {
-  if (animState.value === 'dragging') {
-    const progress = Math.min(1, Math.abs(dragX.value) / 130)
-    const scale = 0.97 + progress * 0.03
-    const translateY = 8 - progress * 8
-    return {
-      transform: `scale(${scale}) translateY(${translateY}px)`,
-      transition: 'none',
+    if (words.value.length <= 1) {
+        return { opacity: 0, transform: 'translateY(0px) scale(1)', transition: 'opacity 0.2s ease' }
     }
-  }
-  return {}
+
+    let p = 0
+    if (animState.value === 'dragging') p = Math.min(1, Math.abs(dragX.value) / 130)
+    else if (animState.value === 'returning') p = returningProgress.value
+    else if (animState.value === 'flying-left' || animState.value === 'flying-right') p = 1
+
+    const scale = 0.96 + 0.04 * p
+    const translateY = 12 - 12 * p
+
+    return {
+        transform: `translateY(${translateY}px) scale(${scale})`,
+        opacity: 1,
+        transition: animState.value === 'dragging' ? 'none' : 'transform 0.38s ease',
+    }
 })
-
-
 </script>
 
 <style scoped>
@@ -225,7 +267,6 @@ const nextCardStyle = computed(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: visible;
     font-family: 'Nunito', sans-serif;
 }
 
@@ -237,9 +278,9 @@ const nextCardStyle = computed(() => {
     min-width: 280px;
     position: relative;
     touch-action: none;
-    overflow: visible;
 }
 
+/* ================= 카드 공통 ================= */
 .word-card {
     position: absolute;
     width: 100%;
@@ -252,64 +293,29 @@ const nextCardStyle = computed(() => {
     cursor: grabbing;
 }
 
-.next-card {
-    border-radius: 32px;
-    z-index: 1;
-    overflow: hidden;
-}
-
-/* 앞 카드 래퍼 */
+/* ================= 앞 카드 ================= */
 .top-card {
     z-index: 5;
     background: transparent !important;
     box-shadow: none !important;
     transform-style: preserve-3d;
+    will-change: transform, opacity;
 }
 
-/* 날아가기 - 초록/빨강 glow 유지 */
-.top-card.is-flying-left {
-    transform: translateX(-700px) rotate(-30deg) !important;
-    opacity: 0 !important;
-    filter: drop-shadow(0 12px 40px rgba(52, 211, 153, 0.6)) !important;
-    transition: transform 0.38s cubic-bezier(0.55, 0, 1, 0.45),
-        opacity 0.25s ease,
-        filter 0.38s ease !important;
-}
-
+.top-card.is-flying-left,
 .top-card.is-flying-right {
-    transform: translateX(700px) rotate(30deg) !important;
-    opacity: 0 !important;
-    filter: drop-shadow(0 12px 40px rgba(248, 113, 113, 0.6)) !important;
-    transition: transform 0.38s cubic-bezier(0.55, 0, 1, 0.45),
-        opacity 0.25s ease,
-        filter 0.38s ease !important;
+    transition: transform 0.38s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.25s ease;
 }
 
-/* 제자리 복귀 */
 .top-card.is-returning {
-    transform: translateX(0px) rotate(0deg) !important;
-    opacity: 1 !important;
-    filter: drop-shadow(0 0 0 transparent) !important;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.4),
-        opacity 0.3s ease,
-        filter 0.4s ease !important;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.4), opacity 0.3s ease;
 }
 
-/* 새 카드 진입 시작점 */
 .top-card.is-entering {
-    opacity: 0 !important;
-    transition: none !important;
+    transition: opacity 0.35s ease !important;
 }
 
-/* idle */
-.top-card:not(.is-flying-left):not(.is-flying-right):not(.is-returning):not(.is-entering) {
-    transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
-    opacity: 1;
-    filter: drop-shadow(0 0 0 transparent);
-    transition: opacity 0.3s ease, filter 0.4s ease;
-}
-
-/* 3D flip */
+/* ================= flip ================= */
 .card-inner {
     width: 100%;
     height: 100%;
@@ -323,7 +329,11 @@ const nextCardStyle = computed(() => {
     transform: rotateY(180deg);
 }
 
-/* 앞/뒷면 공통 */
+.card-inner-static {
+    transition: none !important;
+    transform: none !important;
+}
+
 .card-face {
     position: absolute;
     width: 100%;
@@ -334,112 +344,60 @@ const nextCardStyle = computed(() => {
     overflow: hidden;
 }
 
-/* ✅ 드래그 오버레이 - 배경색이 물드는 효과 */
-.drag-overlay {
-    position: absolute;
-    inset: 0;
-    border-radius: 32px;
-    background-color: var(--overlay-color, transparent);
-    pointer-events: none;
-    z-index: 3;
-    transition: background-color 0.05s ease;
-}
-
-/* 앞면 */
+/* ================= 앞면 ================= */
 .card-front {
     background: linear-gradient(145deg, #ffffff 0%, #f5f0ff 60%, #ede8ff 100%);
     box-shadow: 0 20px 60px rgba(167, 139, 250, 0.25), 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
-.card-front::before {
-    content: '';
-    position: absolute;
-    top: -60px;
-    right: -60px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(167, 139, 250, 0.18) 0%, transparent 70%);
-    pointer-events: none;
+
+/* ================= 뒷면 ================= */
+.card-back {
+    background: linear-gradient(145deg, #7c3aed 0%, #4f46e5 50%, #2563eb 100%);
+    transform: rotateY(180deg);
+    box-shadow: 0 20px 60px rgba(79, 70, 229, 0.4), 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .card-front::after {
-    content: '';
+    content: "";
     position: absolute;
-    bottom: -40px;
-    left: -40px;
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(96, 165, 250, 0.15) 0%, transparent 70%);
+    inset: 0;
+    border-radius: 32px;
+    box-shadow: 0 10px 0 rgba(167, 139, 250, 0.06);
     pointer-events: none;
 }
 
-/* 뒷면 */
-.card-back {
-    background: linear-gradient(145deg, #7c3aed 0%, #4f46e5 50%, #2563eb 100%);
-    box-shadow: 0 20px 60px rgba(79, 70, 229, 0.4), 0 4px 16px rgba(0, 0, 0, 0.1);
-    transform: rotateY(180deg);
-}
-
-.card-back::before {
-    content: '';
-    position: absolute;
-    top: -80px;
-    right: -80px;
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
-    pointer-events: none;
-}
-
-.card-back::after {
-    content: '';
-    position: absolute;
-    bottom: -60px;
-    left: -60px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-    pointer-events: none;
-}
-
-/* Day 태그 */
+/* ================= 태그 ================= */
 .card-tag {
     position: absolute;
     top: 24px;
     left: 24px;
     padding: 5px 14px;
-    background: rgba(167, 139, 250, 0.15);
-    border: 1.5px solid rgba(167, 139, 250, 0.3);
     border-radius: 99px;
     font-size: 12px;
     font-weight: 700;
+    background: rgba(167, 139, 250, 0.15);
+    border: 1.5px solid rgba(167, 139, 250, 0.3);
     color: #7c3aed;
-    letter-spacing: 0.5px;
     z-index: 2;
 }
 
 .tag-back {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.25);
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
 }
 
-/* 카드 내부 레이아웃 */
+/* ================= 내용 ================= */
 .card-content-wrapper {
     width: 100%;
     height: 100%;
+    padding: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 16px;
-    padding: 32px;
-    position: relative;
-    z-index: 1;
 }
 
 .word-group {
@@ -452,60 +410,28 @@ const nextCardStyle = computed(() => {
     color: #1e1b4b;
     letter-spacing: -1px;
     line-height: 1.1;
-    margin-bottom: 8px;
 }
 
 .word-text-back {
-    color: rgba(255, 255, 255, 0.95);
-}
-
-.phonetic-text {
-    font-size: 18px;
-    font-weight: 400;
-    color: #9ca3af;
-    letter-spacing: 1px;
+    color: #ffffff;
 }
 
 .phonetic-text-back {
     color: rgba(255, 255, 255, 0.6);
 }
 
-.meaning-group {
-    text-align: center;
-}
-
 .meaning-text {
     font-size: 36px;
     font-weight: 900;
     color: #ffffff;
-    letter-spacing: -0.5px;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-}
-
-.hint-text {
-    font-size: 13px;
-    font-weight: 600;
-    color: #c4b5fd;
-    margin-top: 4px;
-}
-
-.guide-text {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    color: #c4b5fd;
-    letter-spacing: 0.3px;
-    z-index: 2;
+    margin-top: 12px;
 }
 
 .guide-text-back {
     color: rgba(255, 255, 255, 0.35);
 }
 
-/* 완료 화면 */
+/* ================= 완료 화면 ================= */
 .empty-state {
     text-align: center;
 }
@@ -530,7 +456,6 @@ const nextCardStyle = computed(() => {
     font-size: 28px;
     font-weight: 900;
     color: #1e1b4b;
-    margin-bottom: 8px;
 }
 
 .complete-sub {
@@ -547,7 +472,6 @@ const nextCardStyle = computed(() => {
     border-radius: 99px;
     font-size: 16px;
     font-weight: 700;
-    font-family: 'Nunito', sans-serif;
     cursor: pointer;
     box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -556,5 +480,10 @@ const nextCardStyle = computed(() => {
 .reset-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 32px rgba(124, 58, 237, 0.5);
+}
+
+.next-card {
+    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.06));
+    transition: opacity 0.2s ease;
 }
 </style>
