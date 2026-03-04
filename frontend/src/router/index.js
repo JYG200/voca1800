@@ -16,12 +16,12 @@ const router = createRouter({
     {
       path: '/ranking',
       name: 'ranking',
-      component: () => import('../views/RankingBoardView/RankingBoard.vue')
+      component: () => import('../views/RankingBoardView/RankingBoardView.vue')
     },
     {
       path: '/mypage',
       name: 'mypage',
-      component: () => import('../views/MyPageView/MyPage.vue')
+      component: () => import('../views/MyPageView/MyPageView.vue')
     },
   ]
 })

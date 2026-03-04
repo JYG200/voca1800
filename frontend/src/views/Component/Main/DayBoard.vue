@@ -1,19 +1,22 @@
 <template>
-  <div class="day-grid-wrapper pa-4">
+  <Transition name="toast">
+    <div v-if="toastVisible" class="toast" @click="hideToast">{{ toastMsg }}</div>
+  </Transition>
+  <div class="day-grid-wrapper pa-4" @click="hideToast">
     <div v-for="chapter in 4" :key="chapter" class="chapter-section mb-8">
       <div class="chapter-header mb-4">
         <span class="chapter-badge">Chapter {{ chapter }}</span>
         <span class="chapter-range">Day {{ (chapter - 1) * DAYS_PER_CHAPTER + 1 }} ~ {{ chapter * DAYS_PER_CHAPTER
-          }}</span>
+        }}</span>
       </div>
 
       <div class="day-grid-container">
         <div v-for="n in DAYS_PER_CHAPTER" :key="getDay(chapter, n)" class="day-box" :class="{
-                                                                                                'active': getDay(chapter, n) === currentProgress,
-                                                                                                'locked': getDay(chapter, n) > currentProgress,
-                                                                                                'completed': getDay(chapter, n) < currentProgress
-                                                                                              }"
-          @click="clickDay(getDay(chapter, n))">
+          'active': getDay(chapter, n) === currentProgress,
+          'locked': getDay(chapter, n) > currentProgress,
+          'completed': getDay(chapter, n) < currentProgress
+        }"
+          @click.stop="clickDay(getDay(chapter, n))">
           <div class="day-number">{{ getDay(chapter, n) }}</div>
 
           <v-icon v-if="getDay(chapter, n) < currentProgress" size="16" color="white">mdi-check-bold</v-icon>
@@ -27,18 +30,31 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const router = useRouter()
 const currentProgress = 2
 const DAYS_PER_CHAPTER = 15
 
+const toastMsg = ref('')
+const toastVisible = ref(false)
+let toastTimer = null
+
 const getDay = (chapter, n) => n + (chapter - 1) * DAYS_PER_CHAPTER
+
+const hideToast = () => {
+  toastVisible.value = false
+  clearTimeout(toastTimer)
+}
 
 const clickDay = (targetDay) => {
   if (targetDay > currentProgress) {
-    alert(`🔒 ${currentProgress}단계를 먼저 완료해주세요!`)
+    toastMsg.value = `🔒 ${currentProgress}단계를 먼저 완료해주세요!`
+    toastVisible.value = true
+    clearTimeout(toastTimer)
+    toastTimer = setTimeout(hideToast, 1200)
   } else {
+    hideToast()
     router.push({ name: 'study', params: { id: targetDay } })
   }
 }
@@ -84,7 +100,7 @@ onMounted(() => {
 
 .day-grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
@@ -162,6 +178,44 @@ onMounted(() => {
 
 .day-box.locked .day-number {
   color: #d1d5db;
+}
+
+/* 토스트 */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(20, 17, 35, 0.96);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  backdrop-filter: blur(16px);
+  padding: 16px 28px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #c4b5fd;
+  white-space: nowrap;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Vue Transition - fade only */
+.toast-enter-active {
+  transition: opacity 0.2s ease;
+}
+
+.toast-leave-active {
+  transition: opacity 0.35s ease;
+}
+
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
+}
+
+.toast-enter-to,
+.toast-leave-from {
+  opacity: 1;
 }
 
 @keyframes pulse {

@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <MainHeader />
-    <div class="ranking-scroll-area">
+    <div class="mypage-scroll-area">
       <div class="content-limit-wrapper">
-        <h2>랭킹</h2>
+        <MyPage/>
       </div>
     </div>
     <MainFooter />
@@ -13,10 +13,11 @@
 <script setup>
 import MainHeader from '@/views/Component/Header/MainHeader.vue'
 import MainFooter from '@/views/Component/Footer/MainFooter.vue'
+import MyPage from '@/views/Component/Main/MyPage.vue';
 </script>
 
 <style scoped>
-.ranking-scroll-area {
+.mypage-scroll-area {
   height: calc(100vh - 56px - 56px);
   overflow-y: auto;
   background: linear-gradient(160deg, #f0e6ff 0%, #e6f0ff 50%, #f0f7ff 100%);
