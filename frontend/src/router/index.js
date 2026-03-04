@@ -9,7 +9,7 @@ const router = createRouter({
       component: () => import('../views/MainView/MainView.vue')
     },
     {
-      path: '/study/:id', 
+      path: '/study/:id',
       name: 'study',
       component: () => import('../views/StudyView/StudyView.vue')
     },
@@ -22,6 +22,11 @@ const router = createRouter({
       path: '/mypage',
       name: 'mypage',
       component: () => import('../views/MyPageView/MyPageView.vue')
+    },
+    {
+      path: '/follow',
+      name: 'follow',
+      component: () => import('../views/FollowView/FollowView.vue')
     },
   ]
 })

@@ -78,6 +78,8 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const user = ref({
   name: 'Yonggyu',
@@ -90,8 +92,13 @@ const user = ref({
   totalWords: 1800,
 })
 
-function onGoFollowers() { alert('팔로워 목록으로 이동') }
-function onGoFollowing() { alert('팔로잉 목록으로 이동') }
+
+function onGoFollowers() {
+  router.push({ name: 'follow', query: { tab: 'followers' } })
+}
+function onGoFollowing() {
+  router.push({ name: 'follow', query: { tab: 'following' } })
+}
 function onEditProfile() { alert('프로필 수정으로 이동') }
 function onContact()     { alert('문의하기로 이동') }
 function onLogout()      { alert('로그아웃') }

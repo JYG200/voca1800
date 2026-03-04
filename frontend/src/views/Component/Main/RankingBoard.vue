@@ -69,6 +69,9 @@
 
 <script setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const me = ref({
   id: 'me',
@@ -80,102 +83,102 @@ const me = ref({
 })
 
 const following = ref([
-  {
-    id: 'u1',
-    name: 'Mina',
-    progress: 80,
-    achievedAt: '2026-03-04T08:40:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #ec4899, #f97316)',
-  },
-  {
-    id: 'u2',
-    name: 'Ken',
-    progress: 72,
-    achievedAt: '2026-03-04T08:55:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #10b981, #22c55e)',
-  },
-  {
-    id: 'u3',
-    name: 'Sora',
-    progress: 66,
-    achievedAt: '2026-03-03T22:10:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #0ea5e9, #6366f1)',
-  },
-  {
-    id: 'u4',
-    name: 'Jake',
-    progress: 91,
-    achievedAt: '2026-03-04T07:15:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #f59e0b, #ef4444)',
-  },
-  {
-    id: 'u5',
-    name: 'Hana',
-    progress: 88,
-    achievedAt: '2026-03-04T07:50:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #a855f7, #ec4899)',
-  },
-  {
-    id: 'u6',
-    name: 'Taro',
-    progress: 75,
-    achievedAt: '2026-03-04T09:00:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #14b8a6, #0ea5e9)',
-  },
-  {
-    id: 'u7',
-    name: 'Rina',
-    progress: 72,
-    achievedAt: '2026-03-04T09:05:00+09:00',  // Ken보다 늦어서 Ken 다음 순위
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #f43f5e, #a855f7)',
-  },
-  {
-    id: 'u8',
-    name: 'David',
-    progress: 60,
-    achievedAt: '2026-03-03T20:00:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #64748b, #334155)',
-  },
-  {
-    id: 'u9',
-    name: 'Yuki',
-    progress: 55,
-    achievedAt: '2026-03-03T18:30:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #f97316, #eab308)',
-  },
-  {
-    id: 'u10',
-    name: 'Chris',
-    progress: 48,
-    achievedAt: '2026-03-03T15:00:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #06b6d4, #10b981)',
-  },
-  {
-    id: 'u11',
-    name: 'Nana',
-    progress: 40,
-    achievedAt: '2026-03-03T12:00:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
-  },
-  {
-    id: 'u12',
-    name: 'Leo',
-    progress: 33,
-    achievedAt: '2026-03-03T10:00:00+09:00',
-    avatarUrl: '',
-    avatarBg: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
-  },
+  // {
+  //   id: 'u1',
+  //   name: 'Mina',
+  //   progress: 80,
+  //   achievedAt: '2026-03-04T08:40:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #ec4899, #f97316)',
+  // },
+  // {
+  //   id: 'u2',
+  //   name: 'Ken',
+  //   progress: 72,
+  //   achievedAt: '2026-03-04T08:55:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #10b981, #22c55e)',
+  // },
+  // {
+  //   id: 'u3',
+  //   name: 'Sora',
+  //   progress: 66,
+  //   achievedAt: '2026-03-03T22:10:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #0ea5e9, #6366f1)',
+  // },
+  // {
+  //   id: 'u4',
+  //   name: 'Jake',
+  //   progress: 91,
+  //   achievedAt: '2026-03-04T07:15:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #f59e0b, #ef4444)',
+  // },
+  // {
+  //   id: 'u5',
+  //   name: 'Hana',
+  //   progress: 88,
+  //   achievedAt: '2026-03-04T07:50:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #a855f7, #ec4899)',
+  // },
+  // {
+  //   id: 'u6',
+  //   name: 'Taro',
+  //   progress: 75,
+  //   achievedAt: '2026-03-04T09:00:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #14b8a6, #0ea5e9)',
+  // },
+  // {
+  //   id: 'u7',
+  //   name: 'Rina',
+  //   progress: 72,
+  //   achievedAt: '2026-03-04T09:05:00+09:00',  // Ken보다 늦어서 Ken 다음 순위
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #f43f5e, #a855f7)',
+  // },
+  // {
+  //   id: 'u8',
+  //   name: 'David',
+  //   progress: 60,
+  //   achievedAt: '2026-03-03T20:00:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #64748b, #334155)',
+  // },
+  // {
+  //   id: 'u9',
+  //   name: 'Yuki',
+  //   progress: 55,
+  //   achievedAt: '2026-03-03T18:30:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #f97316, #eab308)',
+  // },
+  // {
+  //   id: 'u10',
+  //   name: 'Chris',
+  //   progress: 48,
+  //   achievedAt: '2026-03-03T15:00:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #06b6d4, #10b981)',
+  // },
+  // {
+  //   id: 'u11',
+  //   name: 'Nana',
+  //   progress: 40,
+  //   achievedAt: '2026-03-03T12:00:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #8b5cf6, #d946ef)',
+  // },
+  // {
+  //   id: 'u12',
+  //   name: 'Leo',
+  //   progress: 33,
+  //   achievedAt: '2026-03-03T10:00:00+09:00',
+  //   avatarUrl: '',
+  //   avatarBg: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
+  // },
 ])
 
 const isEmpty = computed(() => (following.value?.length ?? 0) === 0)
@@ -254,9 +257,11 @@ function formatAchievedAt(v) {
   const mi = String(d.getMinutes()).padStart(2, '0')
   return `${mm}/${dd} ${hh}:${mi}`
 }
+
 function onGoFollow() {
-  alert('팔로우 화면으로 이동 (라우팅 연결 필요)')
+  router.push({ name: 'follow', query: { search: 'true' } })
 }
+
 </script>
 
 <style scoped>
