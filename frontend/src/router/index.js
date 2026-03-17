@@ -28,6 +28,11 @@ const router = createRouter({
       name: 'follow',
       component: () => import('../views/FollowView/FollowView.vue')
     },
+    {
+      path: '/edit-profile',
+      name: 'editProfile',
+      component: () => import('../views/EditProfileView/EditProfileView.vue')
+    },
   ]
 })
 

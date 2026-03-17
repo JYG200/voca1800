@@ -77,9 +77,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
 const router = useRouter()
+const route  = useRoute()
 
 const user = ref({
   name: 'Yonggyu',
@@ -92,16 +94,31 @@ const user = ref({
   totalWords: 1800,
 })
 
+// ✅ EditProfile에서 저장 후 돌아오면 query로 반영
+onMounted(() => {
+  if (route.query.updatedName) {
+    user.value.name     = route.query.updatedName
+    user.value.bio      = route.query.updatedBio ?? user.value.bio
+    user.value.avatarBg = route.query.updatedAvatarBg
+      ? decodeURIComponent(route.query.updatedAvatarBg)
+      : user.value.avatarBg
+  }
+})
 
-function onGoFollowers() {
-  router.push({ name: 'follow', query: { tab: 'followers' } })
+function onGoFollowers() { router.push({ name: 'follow', query: { tab: 'followers' } }) }
+function onGoFollowing()  { router.push({ name: 'follow', query: { tab: 'following' } }) }
+function onEditProfile() {
+  router.push({
+    name: 'editProfile',
+    query: {
+      name:     user.value.name,
+      bio:      user.value.bio,
+      avatarBg: encodeURIComponent(user.value.avatarBg),
+    }
+  })
 }
-function onGoFollowing() {
-  router.push({ name: 'follow', query: { tab: 'following' } })
-}
-function onEditProfile() { alert('프로필 수정으로 이동') }
-function onContact()     { alert('문의하기로 이동') }
-function onLogout()      { alert('로그아웃') }
+function onContact() { alert('문의하기로 이동') }
+function onLogout()  { alert('로그아웃') }
 </script>
 
 <style scoped>
