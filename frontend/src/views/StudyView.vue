@@ -13,8 +13,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import StudyHeader from '@/views/Component/Header/StudyHeader.vue'
-import StudyMain from '@/views/Component/Main/StudyMain.vue'
+import StudyHeader from '@/component/header/StudyHeader.vue'
+import StudyMain from '@/component/main/StudyMain.vue'
 
 const totalWords = ref(0)
 const remainingWords = ref(0)

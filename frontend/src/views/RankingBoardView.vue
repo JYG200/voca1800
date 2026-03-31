@@ -13,9 +13,9 @@
 </template>
 
 <script setup>
-import MainHeader from '@/views/Component/Header/MainHeader.vue'
-import MainFooter from '@/views/Component/Footer/MainFooter.vue'
-import RankingBoard from '@/views/Component/Main/RankingBoard.vue'
+import MainHeader from '@/component/header/MainHeader.vue'
+import MainFooter from '@/component/footer/MainFooter.vue'
+import RankingBoard from '@/component/main/RankingBoard.vue'
 </script>
 
 <style scoped>

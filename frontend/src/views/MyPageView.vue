@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <MainHeader />
-    <div class="follow-scroll-area">
+    <div class="mypage-scroll-area">
       <div class="content-limit-wrapper">
-        <FollowPage />
+        <MyPage/>
       </div>
     </div>
     <MainFooter />
@@ -11,13 +11,13 @@
 </template>
 
 <script setup>
-import MainHeader from '@/views/Component/Header/MainHeader.vue'
-import MainFooter from '@/views/Component/Footer/MainFooter.vue'
-import FollowPage from '@/views/Component/Main/FollowPage.vue'
+import MainHeader from '@/component/header/MainHeader.vue'
+import MainFooter from '@/component/footer/MainFooter.vue'
+import MyPage from '@/component/main/MyPage.vue';
 </script>
 
 <style scoped>
-.follow-scroll-area {
+.mypage-scroll-area {
   height: calc(100vh - 56px - 56px);
   overflow-y: auto;
   background: linear-gradient(160deg, #f0e6ff 0%, #e6f0ff 50%, #f0f7ff 100%);

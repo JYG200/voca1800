@@ -1,8 +1,9 @@
 <template>
   <v-app>
-    <div class="edit-scroll-area">
+    <MainHeader />
+    <div class="follow-scroll-area">
       <div class="content-limit-wrapper">
-        <EditProfilePage />
+        <FollowPage />
       </div>
     </div>
     <MainFooter />
@@ -10,13 +11,15 @@
 </template>
 
 <script setup>
-import MainFooter from '@/views/Component/Footer/MainFooter.vue'
-import EditProfilePage from '@/views/Component/Main/EditProfilePage.vue'
+import MainHeader from '@/component/header/MainHeader.vue'
+import MainFooter from '@/component/footer/MainFooter.vue'
+import FollowPage from '@/component/main/FollowPage.vue'
 </script>
 
 <style scoped>
-.edit-scroll-area {
-  height: calc(100vh - 56px); 
+.follow-scroll-area {
+  height: calc(100vh - 56px - 56px);
+  overflow-y: auto;
   background: linear-gradient(160deg, #f0e6ff 0%, #e6f0ff 50%, #f0f7ff 100%);
 }
 

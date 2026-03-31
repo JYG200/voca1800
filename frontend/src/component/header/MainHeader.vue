@@ -22,7 +22,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import BaseButton from '@/views/Component/Common/BaseButton.vue'
+import BaseButton from '@/component/common/BaseButton.vue'
 
 defineEmits(['open-settings'])  
 const currentProgress = ref(2)

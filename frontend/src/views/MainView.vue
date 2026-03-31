@@ -19,12 +19,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import MainHeader from '@/views/Component/Header/MainHeader.vue'
-import DayBoard from '@/views/Component/Main/DayBoard.vue'
-import MainFooter from '@/views/Component/Footer/MainFooter.vue'
-import SettingsContent from '@/views/Component/Header/SettingsContent.vue' 
+import MainHeader from '@/component/header/MainHeader.vue'
+import DayBoard from '@/component/main/DayBoard.vue'
+import MainFooter from '@/component/footer/MainFooter.vue'
+import SettingsContent from '@/component/header/SettingsContent.vue' 
 
-const isSettingsOpen = ref(false) 
+const isSettingsOpen = ref(false)
 </script>
 
 <style scoped>
