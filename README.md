@@ -68,7 +68,7 @@ voca1800/
 | Domain | Description | Endpoints |
 | :--- | :--- | :--- |
 | **auth** | 회원가입, 로그인, 로그아웃 | `POST /api/auth/signup` `POST /api/auth/login` |
-| **user** | 프로필 조회, 수정, 탈퇴 | `GET /api/users/me` `PUT /api/users/me` |
+| **user** | 프로필 조회, 수정, 탈퇴 | `GET /api/users/me` `PUT /api/users/me` `DELETE /api/users/me` |
 | **follow** | 팔로우, 언팔로우, 유저 검색 | `POST /api/follows/{id}` `GET /api/follows/search` |
 | **word** | Day별 단어 목록 (영어, 뜻, 발음) | `GET /api/words/days/{dayNumber}` |
 | **progress** | 학습 진도, 외움/미흡, 통계 | `GET /api/progress/days` `POST /api/progress/days/{n}/complete` |
