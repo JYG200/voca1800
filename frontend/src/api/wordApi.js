@@ -1,11 +1,5 @@
-import api from './axios.js';
+import api from './axios.js'
 
-export const fetchTestWords = async () => {
-  try {
-    const response = await api.get('/test/words');
-    return response.data; 
-  } catch (error) {
-    console.error('실패:', error);
-    return '백엔드 연결 실패';
-  }
-};
+// Day별 단어 목록 조회
+export const getWordsByDay = (dayNumber) =>
+  api.get(`/words/days/${dayNumber}`)
