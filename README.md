@@ -1,11 +1,11 @@
-# 📚 Voca1800 - Gamified Vocabulary Learning Platform
+# Voca1800 - Gamified Vocabulary Learning Platform
 
 **Voca1800**은 하루 30단어씩 총 60일 동안 1,800개의 필수 단어를 완벽하게 암기하도록 돕는 웹 애플리케이션입니다.
 단순한 암기를 넘어, **친구와의 진도 경쟁(Ranking)**과 **게이미피케이션(Gamification)** 요소를 도입하여 학습 동기를 극대화했습니다.
 
 <br>
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category | Technology |
 | :--- | :--- |
@@ -13,22 +13,108 @@
 | **Backend** | ![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat&logo=spring-boot&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white) ![JPA](https://img.shields.io/badge/Spring_Data_JPA-gray?style=flat) |
 | **Database** | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql&logoColor=white) |
 | **Infrastructure** | ![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=flat&logo=google-cloud&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white) |
-| **Tools** | ![pgAdmin](https://img.shields.io/badge/pgAdmin_4-336791?style=flat&logo=postgresql&logoColor=white) ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat&logo=intellij-idea&logoColor=white) ![VS Code](https://img.shields.io/badge/Visual_Studio_Code-007ACC?style=flat&logo=visual-studio-code&logoColor=white) |
-<br>
-
-## 🛤️ Development Roadmap
-
-Voca1800은 **학습(Learning)**, **개인화(Personal)**, **소셜(Social)** 순서로 단계별 개발을 진행합니다.
-
-| 우선순위 | 구분 | 화면명 | 핵심 기능 (What) | UI/UX 특징 (How) |
-| :---: | :---: | :--- | :--- | :--- |
-| 🥇 **1순위** | **메인** | **대시보드**<br>(Dashboard) | • 학습 진도 확인<br>• 학습할 Day 선택 (1~60일)<br>• 퀴즈/랭킹 빠른 이동 | • **Grid System:** Day 1~60 버튼 배치<br>• **Status Color:** 🟢완료 / 🔵진행중 / 🔒잠김 |
-| 🥇 **1순위** | **학습** | **단어 학습**<br>(Study Mode) | • 단어 암기 (플래시카드)<br>• Day별 학습 완료 처리 | • **Flashcard:** 앞면(영어) ↔ 뒷면(한글/일어)<br>• **Flip Motion:** 클릭 시 뒤집히는 애니메이션 |
-| 🥈 **2순위** | **계정** | **마이 페이지**<br>(My Page) | • 내 정보 조회<br>• 팔로워/팔로잉 현황 | • **Profile:** 프로필 사진, 레벨, 닉네임 표시<br>• **Toggle:** 다크모드 지원 |
-| 🥈 **2순위** | **설정** | **프로필 수정**<br>(Settings) | • 개인정보 수정<br>• 비밀번호 변경<br>• **회원 탈퇴** | • **Security:** 현재 비밀번호 확인 후 변경<br>• **Danger Zone:** 탈퇴 시 경고 팝업 제공 |
-| 🥉 **3순위** | **소셜** | **랭킹**<br>(Ranking) | • 친구들과 진도 경쟁<br>• 친구 추가 화면 이동 | • **Progress Bar:** Day 진도율 시각화<br>• **Ranking:** 내 순위 강조 표시 (Sticky) |
-| 🥉 **3순위** | **소셜** | **친구 검색**<br>(Search) | • 경쟁자(친구) 찾기<br>• 팔로우/언팔로우 | • **Search:** 닉네임/이메일 검색<br>• **Follow:** 즉시 랭킹 리스트에 추가 |
-| 🥉 **3순위** | **소셜** | **친구 목록**<br>(Friend List) | • 팔로워/팔로잉 관리<br>• 친구 관계 정리 | • **Tab View:** 팔로워/팔로잉 탭 구분<br>• **Action:** 언팔로우 및 삭제 버튼 |
-| 🎮 **Bonus** | **재미** | **랜덤 퀴즈**<br>(Speed Quiz) | • 복습용 4지 선다<br>• 점수 획득 게임 | • **Timer:** 제한시간(타이머) 기능<br>• **Feedback:** 정답/오답 즉시 확인 |
 
 <br>
+
+## Architecture
+
+**DDD + Clean Architecture + Hexagonal Architecture** 조합으로 설계했습니다.
+
+```
+[Frontend]                    [Backend]                         [DB]
+Vue 3 ──→ Axios ──→ Controller(adapter/in) ──→ UseCase(application) ──→ Repository(adapter/out) ──→ PostgreSQL
+                              │                       │
+                         Request/Response DTO    Port(in/out) 인터페이스
+                                                      │
+                                                 Domain(Entity, VO)
+```
+
+의존성 방향: `adapter → application → domain` (반대 방향 의존 금지)
+
+<br>
+
+## Project Structure
+
+```
+voca1800/
+├── frontend/                          # Vue 3
+│   └── src/
+│       ├── api/                       # 도메인별 API 모듈 (Axios)
+│       ├── component/                 # 재사용 컴포넌트
+│       ├── router/                    # Vue Router
+│       └── views/                     # 페이지 뷰
+│
+├── backend/                           # Spring Boot
+│   └── src/main/java/com/voca1800/
+│       ├── {domain}/
+│       │   ├── domain/                # Entity, Value Object
+│       │   ├── application/
+│       │   │   ├── port/in/           # UseCase 인터페이스
+│       │   │   ├── port/out/          # Repository 포트
+│       │   │   └── service/           # UseCase 구현체
+│       │   └── adapter/
+│       │       ├── in/web/            # Controller + DTO
+│       │       └── out/persistence/   # JPA Repository
+│       └── global/                    # 공통 설정, 예외 처리
+│
+├── docs/                              # API 명세서
+└── docker-compose.yml
+```
+
+<br>
+
+## Domain
+
+| Domain | Description | Endpoints |
+| :--- | :--- | :--- |
+| **auth** | 회원가입, 로그인, 로그아웃 | `POST /api/auth/signup` `POST /api/auth/login` |
+| **user** | 프로필 조회, 수정, 탈퇴 | `GET /api/users/me` `PUT /api/users/me` |
+| **follow** | 팔로우, 언팔로우, 유저 검색 | `POST /api/follows/{id}` `GET /api/follows/search` |
+| **word** | Day별 단어 목록 (영어, 뜻, 발음) | `GET /api/words/days/{dayNumber}` |
+| **progress** | 학습 진도, 외움/미흡, 통계 | `GET /api/progress/days` `POST /api/progress/days/{n}/complete` |
+| **ranking** | 팔로잉 기반 진도 순위 | `GET /api/ranking` |
+| **setting** | 학습 언어, 테마, 볼륨 설정 | `GET /api/settings` `PUT /api/settings` |
+
+> 상세 API 명세는 [docs/api-spec.md](docs/api-spec.md) 참고
+
+<br>
+
+## Screens
+
+| Screen | Description | Key Feature |
+| :--- | :--- | :--- |
+| **Dashboard** | Day 1~60 학습 진도 | Grid 형태, 완료/진행중/잠김 상태 표시 |
+| **Study** | 플래시카드 단어 학습 | 스와이프로 외움/미흡 분류 |
+| **Ranking** | 팔로잉 유저 진도 경쟁 | 진도율 기반 순위, 내 순위 강조 |
+| **My Page** | 프로필, 학습 통계 | 외운 단어 수, 팔로워/팔로잉 |
+| **Follow** | 팔로워/팔로잉 관리 | 유저 검색, 팔로우/언팔로우 |
+| **Edit Profile** | 프로필 편집 | 이름, 소개, 아바타 변경 |
+| **Settings** | 학습 설정 | 언어, 테마, 볼륨, 학습 초기화 |
+
+<br>
+
+## Getting Started
+
+```bash
+# Frontend
+cd frontend && npm install && npm run dev    # http://localhost:5173
+
+# Backend
+cd backend && ./gradlew bootRun              # http://localhost:8080
+
+# Docker
+docker-compose up
+```
+
+<br>
+
+## Development Progress
+
+| Step | Task | Status |
+| :---: | :--- | :---: |
+| 1 | 화면 디자인 (Vue 컴포넌트) | Done |
+| 2 | API 명세 정의 (docs/api-spec.md) | Done |
+| 3 | 프론트 API 모듈 (src/api/) | Done |
+| 4 | DB 설계 | - |
+| 5 | Backend 구현 (Entity ~ Controller) | - |
+| 6 | 프론트 ↔ 백엔드 연동 | - |
